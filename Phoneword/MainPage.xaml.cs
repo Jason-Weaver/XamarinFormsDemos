@@ -34,14 +34,21 @@ namespace Phoneword
             if (await this.DisplayAlert (
                 "Dial a Number",
                 "Would you like to call " + translatedNumber + "?",
-                "yes", "No")) 
+                "Yes", "No")) 
             {
                 var dialer = DependencyService.Get<IDialer>();
                 if (dialer != null)
                 {
+                    App.PhoneNumbers.Add(translatedNumber);
+                    callHistoryButton.IsEnabled = true;
                     dialer.Dial(translatedNumber);
                 }
             }
+        }
+
+        async void OnCallHistory(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CallHistoryPage());
         }
 
     }
